@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yaswanth Vuppala | ML & AI Portfolio</title>
+  <meta name="description" content="Portfolio of Yaswanth Vuppala — Engineering student specializing in Machine Learning, AI, and Data Science. Explore projects, skills, and more." />
+  <meta name="keywords" content="Yaswanth Vuppala, Machine Learning, AI, Portfolio, IIIT Sri City, Python, Data Science" />
+  <meta name="author" content="Yaswanth Vuppala" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== PARTICLE CANVAS ===== -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="navbar" id="navbar">
+    <a href="#about" class="nav-logo">YV</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about" class="active">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#certifications">Certifications</a></li>
+      <li><a href="#contact" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero" id="hero">
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          Open to Internship Opportunities
+        </div>
+        <h1 class="hero-name">
+          Hi, I'm <br /><span class="gradient-text">Yaswanth Vuppala</span>
+        </h1>
+        <p class="hero-title">
+          <span class="typed-text" id="typedText"></span>
+        </p>
+        <p class="hero-description">
+          Motivated engineering student with a strong interest in Machine Learning & Artificial Intelligence.
+          Skilled in Python, SQL, and data analysis — ready to solve real-world problems.
+        </p>
+        <div class="hero-buttons">
+          <a href="#projects" class="btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            View Projects
+          </a>
+          <a href="#contact" class="btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Get in Touch
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-number" data-count="8.77">0</div>
+            <div class="stat-label">CGPA</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-count="15">0</div>
+            <div class="stat-label">Skills</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-count="2">0</div>
+            <div class="stat-label">Projects</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-avatar-wrapper">
+        <div class="avatar-container">
+          <img src="assets/profile_avatar.png" alt="Yaswanth Vuppala" class="hero-avatar" />
+          <div class="dust-particles"></div>
+        </div>
+        <div class="avatar-ring"></div>
+        <div class="avatar-ring-2"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT SECTION ===== -->
+  <section class="section" id="about">
+    <div class="floating-shape shape-3"></div>
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-tag">✦ About Me</div>
+        <h2 class="section-title">Passionate About <span class="highlight">Innovation</span></h2>
+        <p class="section-subtitle">Building intelligent systems that make a difference</p>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-text reveal-left">
+          <p>
+            I'm a <strong>Computer Science Engineering</strong> student at the
+            <strong>Indian Institute of Information Technology (IIIT), Sri City</strong>,
+            driven by curiosity for machine learning, artificial intelligence, and data-driven
+            problem solving.
+          </p>
+          <p>
+            Currently working on an <strong>Intrusion Detection System using Continual Learning</strong>,
+            I enjoy tackling complex challenges — from data preprocessing and feature engineering to
+            building and evaluating predictive models. I'm always eager to learn and collaborate.
+          </p>
+
+          <div class="about-info-grid">
+            <div class="info-item">
+              <div class="info-icon">📍</div>
+              <div>
+                <div class="info-label">Location</div>
+                <div class="info-value">Srikalahasti, India</div>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">🎓</div>
+              <div>
+                <div class="info-label">University</div>
+                <div class="info-value">IIIT Sri City</div>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">📧</div>
+              <div>
+                <div class="info-label">Email</div>
+                <div class="info-value">vuppalayaswanth5@gmail.com</div>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">📅</div>
+              <div>
+                <div class="info-label">Graduation</div>
+                <div class="info-value">2028</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-card reveal-right">
+          <h3 style="font-family:'Outfit',sans-serif; font-size:1.15rem; font-weight:700; margin-bottom:20px;">Non-Technical Skills</h3>
+          <div class="skills-list" style="margin-bottom:28px;">
+            <span class="skill-tag"><span class="skill-dot"></span> Problem Solving</span>
+            <span class="skill-tag"><span class="skill-dot"></span> Analytical Thinking</span>
+            <span class="skill-tag"><span class="skill-dot"></span> Team Collaboration</span>
+            <span class="skill-tag"><span class="skill-dot"></span> Quick Learner</span>
+          </div>
+
+          <h3 style="font-family:'Outfit',sans-serif; font-size:1.15rem; font-weight:700; margin-bottom:14px;">Languages</h3>
+          <div class="languages-list">
+            <span class="language-tag"> English</span>
+            <span class="language-tag"> Telugu</span>
+            <span class="language-tag"> Hindi</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SKILLS SECTION ===== -->
+  <section class="section" id="skills">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-tag">🛠️ Skills</div>
+        <h2 class="section-title">Technical <span class="highlight">Arsenal</span></h2>
+        <p class="section-subtitle">Technologies and tools I work with</p>
+      </div>
+
+      <div class="skills-grid">
+        <!-- Programming Languages -->
+        <div class="skill-category reveal">
+          <div class="skill-category-header">
+            <div class="skill-category-icon">💻</div>
+            <h3 class="skill-category-title">Programming Languages</h3>
+          </div>
+          <div class="skills-list">
+            <span class="skill-tag"><span class="skill-dot"></span> Python</span>
+            <span class="skill-tag"><span class="skill-dot"></span> C</span>
+            <span class="skill-tag"><span class="skill-dot"></span> C++</span>
+            <span class="skill-tag"><span class="skill-dot"></span> Java</span>
+            <span class="skill-tag"><span class="skill-dot"></span> SQL</span>
+          </div>
+        </div>
+
+        <!-- ML & Data Science -->
+        <div class="skill-category reveal">
+          <div class="skill-category-header">
+            <div class="skill-category-icon">🧠</div>
+            <h3 class="skill-category-title">ML & Data Science</h3>
+          </div>
+          <div class="skills-list">
+            <span class="skill-tag"><span class="skill-dot"></span> Machine Learning</span>
+            <span class="skill-tag"><span class="skill-dot"></span> Neural Networks</span>
+            <span class="skill-tag"><span class="skill-dot"></span> NumPy</span>
+            <span class="skill-tag"><span class="skill-dot"></span> Pandas</span>
+            <span class="skill-tag"><span class="skill-dot"></span> Scikit-Learn</span>
+            <span class="skill-tag"><span class="skill-dot"></span> TensorFlow</span>
+            <span class="skill-tag"><span class="skill-dot"></span> Keras</span>
+          </div>
+        </div>
+
+        <!-- Web Technologies -->
+        <div class="skill-category reveal">
+          <div class="skill-category-header">
+            <div class="skill-category-icon">🌐</div>
+            <h3 class="skill-category-title">Web Technologies</h3>
+          </div>
+          <div class="skills-list">
+            <span class="skill-tag"><span class="skill-dot"></span> HTML</span>
+            <span class="skill-tag"><span class="skill-dot"></span> CSS</span>
+            <span class="skill-tag"><span class="skill-dot"></span> JavaScript</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== EDUCATION SECTION ===== -->
+  <section class="section" id="education">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-tag">🎓 Education</div>
+        <h2 class="section-title">Academic <span class="highlight">Journey</span></h2>
+        <p class="section-subtitle">My educational background and achievements</p>
+      </div>
+
+      <div class="education-timeline">
+        <!-- B.Tech -->
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <span class="timeline-year">2024 – 2028</span>
+            <h3 class="timeline-degree">B.Tech in Computer Science & Engineering</h3>
+            <p class="timeline-school">Indian Institute of Information Technology (IIIT), Sri City</p>
+            <span class="timeline-grade">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              CGPA: 8.77 / 10
+            </span>
+          </div>
+        </div>
+
+        <!-- 12th -->
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <span class="timeline-year">2024</span>
+            <h3 class="timeline-degree">12th Grade (Intermediate)</h3>
+            <p class="timeline-school">Narayana Junior College, Andhra Pradesh</p>
+            <span class="timeline-grade">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Grade: 97.6%
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROJECTS SECTION ===== -->
+  <section class="section" id="projects">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-tag">🚀 Projects</div>
+        <h2 class="section-title">Featured <span class="highlight">Work</span></h2>
+        <p class="section-subtitle">Real-world applications I've built and am building</p>
+      </div>
+
+      <div class="projects-grid">
+        <!-- Project 1: IDS -->
+        <div class="project-card reveal">
+          <div class="project-image-wrapper">
+            <img src="assets/project_ids.png" alt="Intrusion Detection System" class="project-image" />
+            <span class="project-status active">In Progress</span>
+          </div>
+          <div class="project-body">
+            <div class="project-duration">⏱ 2 Months • Current Project</div>
+            <h3 class="project-title">Intrusion Detection System Using Continual Learning</h3>
+            <ul class="project-description">
+              <li>Developing an ML-based IDS to identify malicious network activities and cyber-attacks</li>
+              <li>Performing data preprocessing, feature selection, and data standardization to improve model performance</li>
+              <li>Evaluating using accuracy, precision, recall, and F1-score metrics</li>
+            </ul>
+            <div class="project-tags">
+              <span class="project-tag">Semi-Supervised Learning</span>
+              <span class="project-tag">Scikit-Learn</span>
+              <span class="project-tag">Machine Learning</span>
+              <span class="project-tag">Cybersecurity</span>
+              <span class="project-tag">Continual Learning</span>
+              <span class="project-tag">Neural Networks</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2: Recommendation System -->
+        <div class="project-card reveal">
+          <div class="project-image-wrapper">
+            <img src="assets/project_recsys.png" alt="Recommendation System" class="project-image" />
+            <span class="project-status completed">Completed</span>
+          </div>
+          <div class="project-body">
+            <div class="project-duration">⏱ 4 Weeks</div>
+            <h3 class="project-title">Recommendation System Using Machine Learning</h3>
+            <ul class="project-description">
+              <li>Built a recommendation system to suggest relevant items based on user preferences</li>
+              <li>Applied collaborative filtering techniques to analyze user-item relationships</li>
+              <li>Performed data preprocessing and similarity calculations to improve accuracy</li>
+            </ul>
+            <div class="project-tags">
+              <span class="project-tag">Python</span>
+              <span class="project-tag">Pandas</span>
+              <span class="project-tag">NumPy</span>
+              <span class="project-tag">ML</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CERTIFICATIONS SECTION ===== -->
+  <section class="section" id="certifications">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-tag">🏆 Certifications</div>
+        <h2 class="section-title">Professional <span class="highlight">Credentials</span></h2>
+        <p class="section-subtitle">Recognized learning and achievements</p>
+      </div>
+
+      <div class="cert-cards">
+        <div class="cert-card reveal">
+          <div class="cert-icon">🧩</div>
+          <h3 class="cert-title">Unsupervised Learning, Recommenders, Reinforcement Learning</h3>
+          <p class="cert-issuer">DeepLearning.AI</p>
+          <div style="margin-top: 16px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+            Issued Mar 2026<br>
+            ID: QZI0CW6FKBB5
+          </div>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon">🧠</div>
+          <h3 class="cert-title">Advanced Learning Algorithms</h3>
+          <p class="cert-issuer">DeepLearning.AI</p>
+          <div style="margin-top: 16px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+            Issued Mar 2026<br>
+            ID: ESK7I3BW3L03
+          </div>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon">📈</div>
+          <h3 class="cert-title">Supervised Machine Learning: Regression and Classification</h3>
+          <p class="cert-issuer">DeepLearning.AI</p>
+          <div style="margin-top: 16px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+            Issued Dec 2025<br>
+            ID: E5VP1XRB247R
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT SECTION ===== -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-tag">📬 Contact</div>
+        <h2 class="section-title">Let's <span class="highlight">Connect</span></h2>
+        <p class="section-subtitle">Have an opportunity or just want to say hi? Reach out!</p>
+      </div>
+
+      <div class="contact-wrapper reveal">
+        <!-- Contact Info -->
+        <div class="contact-info">
+          <a href="mailto:vuppalayaswanth5@gmail.com" class="contact-item" id="contact-email">
+            <div class="contact-icon">📧</div>
+            <div>
+              <div class="contact-label">Email</div>
+              <div class="contact-value">vuppalayaswanth5@gmail.com</div>
+            </div>
+          </a>
+          <a href="tel:+919392983151" class="contact-item" id="contact-phone">
+            <div class="contact-icon">📱</div>
+            <div>
+              <div class="contact-label">Phone</div>
+              <div class="contact-value">+91 9392983151</div>
+            </div>
+          </a>
+          <div class="contact-item" id="contact-location">
+            <div class="contact-icon">📍</div>
+            <div>
+              <div class="contact-label">Location</div>
+              <div class="contact-value">Srikalahasti, India</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Links -->
+        <div class="social-links">
+          <a href="https://www.linkedin.com/in/yaswanth-vuppala-356073329/" target="_blank" rel="noopener" class="social-link" id="social-linkedin">
+            <div class="social-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </div>
+            <div>
+              <div class="social-name">LinkedIn</div>
+              <div class="social-handle">yaswanth-vuppala</div>
+            </div>
+          </a>
+          <a href="https://github.com/yaswanthvuppala" target="_blank" rel="noopener" class="social-link" id="social-github">
+            <div class="social-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            </div>
+            <div>
+              <div class="social-name">GitHub</div>
+              <div class="social-handle">yaswanthvuppala</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <p class="footer-text">
+      Designed & Built by Yaswanth Vuppala &copy; 2026
+    </p>
+  </footer>
+
+  <!-- ===== BACK TO TOP ===== -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="main.js"></script>
+</body>
+</html>
