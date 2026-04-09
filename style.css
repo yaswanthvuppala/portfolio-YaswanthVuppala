@@ -1322,7 +1322,12 @@ body {
     flex-direction: column-reverse;
     text-align: center;
   }
-  .hero-avatar {
+  .hero-avatar-wrapper {
+    width: 250px;
+    height: 250px;
+    margin: 0 auto;
+  }
+  .avatar-container {
     width: 250px;
     height: 250px;
   }
@@ -1382,9 +1387,24 @@ body {
   .hero {
     padding: 100px 20px 60px;
   }
-  .hero-avatar {
+  .hero-avatar-wrapper {
     width: 200px;
     height: 200px;
+    margin: 0 auto;
+  }
+  .avatar-container {
+    width: 200px;
+    height: 200px;
+  }
+  .avatar-ring {
+    top: -8px; left: -8px;
+    width: calc(100% + 16px);
+    height: calc(100% + 16px);
+  }
+  .avatar-ring-2 {
+    top: -16px; left: -16px;
+    width: calc(100% + 32px);
+    height: calc(100% + 32px);
   }
   .container {
     padding: 0 20px;
