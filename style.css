@@ -75,6 +75,7 @@ body {
 /* ===== CUSTOM SCROLLBAR ===== */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-primary);
@@ -855,9 +856,28 @@ body {
 
 /* ===== PROJECTS SECTION ===== */
 .projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+  display: flex;
+  overflow-x: auto;
   gap: 28px;
+  padding-bottom: 24px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.projects-grid::-webkit-scrollbar {
+  height: 8px;
+}
+.projects-grid::-webkit-scrollbar-track {
+  background: var(--bg-card);
+  border-radius: 10px;
+}
+.projects-grid::-webkit-scrollbar-thumb {
+  background: var(--gradient-card);
+  border-radius: 10px;
+  border: 1px solid var(--border-glass);
+}
+.projects-grid::-webkit-scrollbar-thumb:hover {
+  background: var(--gradient-primary);
 }
 
 .project-card {
@@ -869,6 +889,9 @@ body {
   overflow: hidden;
   transition: var(--transition-smooth);
   cursor: pointer;
+  flex: 0 0 450px;
+  max-width: 100%;
+  scroll-snap-align: start;
 }
 
 .project-card:hover {
@@ -1353,8 +1376,8 @@ body {
   .timeline-dot {
     left: 16px;
   }
-  .projects-grid {
-    grid-template-columns: 1fr;
+  .project-card {
+    flex: 0 0 calc(100vw - 80px);
   }
   .contact-wrapper {
     grid-template-columns: 1fr;
