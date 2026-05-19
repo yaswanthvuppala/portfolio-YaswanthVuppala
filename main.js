@@ -321,50 +321,64 @@ document.addEventListener('DOMContentLoaded', () => {
   const GITHUB_USERNAME = 'yaswanthvuppala';
 
   async function fetchGitHubStats() {
-    // Fetch streak stats from github-readme-streak-stats (parses SVG)
+    const ghContribEl = document.getElementById('gh-contributions');
+    const ghStreakEl = document.getElementById('gh-streak');
+    const ghLongestEl = document.getElementById('gh-longest');
+
     try {
-      const streakRes = await fetch(`https://github-readme-streak-stats.herokuapp.com/?user=${GITHUB_USERNAME}&hide_border=true`);
-      if (!streakRes.ok) throw new Error('Streak stats error');
-      const svgText = await streakRes.text();
+      // Fetch contribution data from CORS-friendly public API
+      const res = await fetch(`https://github-contributions-api.jogruber.de/v4/${GITHUB_USERNAME}?y=last`);
+      if (!res.ok) throw new Error('Contributions API error');
+      const data = await res.json();
 
-      // Parse the SVG to extract numbers
-      const parser = new DOMParser();
-      const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
-      const textElements = svgDoc.querySelectorAll('text');
+      const contributions = data.contributions || [];
+      const totalContributions = data.total?.lastYear || contributions.reduce((s, c) => s + c.count, 0);
 
-      let total = null, current = null, longest = null;
-      textElements.forEach(el => {
-        const text = el.textContent.trim();
-        const parent = el.closest('g[transform]');
-        if (!parent) return;
-        const transform = parent.getAttribute('transform') || '';
+      // Get today's date string (YYYY-MM-DD)
+      const now = new Date();
+      const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
-        // Total at translate(82.5, 48), Current at (247.5, 48), Longest at (412.5, 48)
-        if (transform.includes('82.5') && transform.includes('48') && /^\d+$/.test(text)) {
-          total = text;
+      // Find today's index in the array
+      let todayIndex = contributions.findIndex(c => c.date === todayStr);
+      if (todayIndex === -1) todayIndex = contributions.length - 1;
+
+      // Calculate current streak (backwards from today)
+      let currentStreak = 0;
+      let startIdx = todayIndex;
+      // If today has 0, check if yesterday was active (streak not broken yet today)
+      if (contributions[startIdx]?.count === 0 && startIdx > 0 && contributions[startIdx - 1]?.count > 0) {
+        startIdx = startIdx - 1;
+      }
+      if (contributions[startIdx]?.count > 0) {
+        for (let i = startIdx; i >= 0; i--) {
+          if (contributions[i].count > 0) currentStreak++;
+          else break;
         }
-        if (transform.includes('247.5') && transform.includes('48') && /^\d+$/.test(text)) {
-          current = text;
-        }
-        if (transform.includes('412.5') && transform.includes('48') && /^\d+$/.test(text)) {
-          longest = text;
-        }
-      });
+      }
 
-      const ghContribEl = document.getElementById('gh-contributions');
-      const ghStreakEl = document.getElementById('gh-streak');
-      const ghLongestEl = document.getElementById('gh-longest');
+      // Calculate longest streak
+      let longestStreak = 0;
+      let tempStreak = 0;
+      for (let i = 0; i <= todayIndex; i++) {
+        if (contributions[i].count > 0) {
+          tempStreak++;
+          if (tempStreak > longestStreak) longestStreak = tempStreak;
+        } else {
+          tempStreak = 0;
+        }
+      }
 
-      if (total && ghContribEl) ghContribEl.textContent = total;
-      if (current && ghStreakEl) ghStreakEl.textContent = `${current} days`;
-      if (longest && ghLongestEl) ghLongestEl.textContent = `${longest} days`;
+      if (ghContribEl) ghContribEl.textContent = totalContributions;
+      if (ghStreakEl) ghStreakEl.textContent = `${currentStreak} days`;
+      if (ghLongestEl) ghLongestEl.textContent = `${longestStreak} days`;
 
     } catch (err) {
-      console.warn('Could not fetch streak stats:', err);
+      console.warn('Could not fetch GitHub stats:', err);
     }
   }
 
   fetchGitHubStats();
+
 
 
   // ===== FETCH GITHUB REPOS =====
