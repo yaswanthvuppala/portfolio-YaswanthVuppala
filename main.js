@@ -317,125 +317,54 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 
-  // ===== GITHUB CONTRIBUTION GRID (REAL DATA) =====
-  const contributionGrid = document.getElementById('contributionGrid');
+  // ===== GITHUB STATS =====
   const GITHUB_USERNAME = 'yaswanthvuppala';
 
-  async function buildContributionGrid() {
-    if (!contributionGrid) return;
-
-    const weeks = 52;
-    const days = 7;
-    const totalCells = weeks * days;
-    const now = new Date();
-
-    // Use UTC dates throughout to avoid timezone mismatches with API
-    const todayUTC = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
-
-    // Align endDate to Saturday of the current week (in UTC)
-    const endDateUTC = new Date(todayUTC);
-    endDateUTC.setUTCDate(endDateUTC.getUTCDate() + (6 - endDateUTC.getUTCDay()));
-
-    // Start date is totalCells - 1 days before endDate (always a Sunday)
-    const startDateUTC = new Date(endDateUTC);
-    startDateUTC.setUTCDate(startDateUTC.getUTCDate() - (totalCells - 1));
-
-    const dateMap = {}; // 'YYYY-MM-DD' -> count
-
-    // Fetch events from GitHub API (public events, last 90 days max)
+  async function fetchGitHubStats() {
+    // Fetch streak stats from github-readme-streak-stats (parses SVG)
     try {
-      const pages = [1, 2, 3];
-      const allEvents = [];
-      for (const page of pages) {
-        const res = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/events?per_page=100&page=${page}`);
-        if (!res.ok) break;
-        const events = await res.json();
-        if (events.length === 0) break;
-        allEvents.push(...events);
-      }
+      const streakRes = await fetch(`https://github-readme-streak-stats.herokuapp.com/?user=${GITHUB_USERNAME}&hide_border=true`);
+      if (!streakRes.ok) throw new Error('Streak stats error');
+      const svgText = await streakRes.text();
 
-      // Count events per day (using UTC date from ISO string)
-      allEvents.forEach(event => {
-        const key = event.created_at.split('T')[0];
-        dateMap[key] = (dateMap[key] || 0) + 1;
+      // Parse the SVG to extract numbers
+      const parser = new DOMParser();
+      const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
+      const textElements = svgDoc.querySelectorAll('text');
+
+      let total = null, current = null, longest = null;
+      textElements.forEach(el => {
+        const text = el.textContent.trim();
+        const parent = el.closest('g[transform]');
+        if (!parent) return;
+        const transform = parent.getAttribute('transform') || '';
+
+        // Total at translate(82.5, 48), Current at (247.5, 48), Longest at (412.5, 48)
+        if (transform.includes('82.5') && transform.includes('48') && /^\d+$/.test(text)) {
+          total = text;
+        }
+        if (transform.includes('247.5') && transform.includes('48') && /^\d+$/.test(text)) {
+          current = text;
+        }
+        if (transform.includes('412.5') && transform.includes('48') && /^\d+$/.test(text)) {
+          longest = text;
+        }
       });
+
+      const ghContribEl = document.getElementById('gh-contributions');
+      const ghStreakEl = document.getElementById('gh-streak');
+      const ghLongestEl = document.getElementById('gh-longest');
+
+      if (total && ghContribEl) ghContribEl.textContent = total;
+      if (current && ghStreakEl) ghStreakEl.textContent = `${current} days`;
+      if (longest && ghLongestEl) ghLongestEl.textContent = `${longest} days`;
+
     } catch (err) {
-      console.warn('Could not fetch GitHub events:', err);
+      console.warn('Could not fetch streak stats:', err);
     }
-
-    // Known contribution count from GitHub profile (update periodically)
-    const KNOWN_CONTRIBUTIONS = 51;
-
-    // Build levels array from date map
-    const levels = [];
-    const dateCursor = new Date(startDateUTC);
-    for (let i = 0; i < totalCells; i++) {
-      const key = dateCursor.toISOString().split('T')[0];
-      const count = dateMap[key] || 0;
-      let level = 0;
-      if (count >= 8) level = 4;
-      else if (count >= 5) level = 3;
-      else if (count >= 3) level = 2;
-      else if (count >= 1) level = 1;
-      levels.push({ level, count, date: key });
-      dateCursor.setUTCDate(dateCursor.getUTCDate() + 1);
-    }
-
-    // Find today's index in the grid
-    const todayKey = todayUTC.toISOString().split('T')[0];
-    let todayIndex = levels.findIndex(l => l.date === todayKey);
-    if (todayIndex === -1) todayIndex = levels.length - 1;
-
-    // Calculate current streak (backwards from today)
-    let currentStreak = 0;
-    let startIdx = todayIndex;
-    // If today has 0 contributions, check yesterday
-    if (levels[startIdx].count === 0 && startIdx > 0 && levels[startIdx - 1].count > 0) {
-      startIdx = startIdx - 1;
-    }
-    if (levels[startIdx].count > 0) {
-      for (let i = startIdx; i >= 0; i--) {
-        if (levels[i].count > 0) currentStreak++;
-        else break;
-      }
-    }
-
-    // Calculate longest streak (scan up to today)
-    let longestStreak = 0;
-    let tempStreak = 0;
-    for (let i = 0; i <= todayIndex; i++) {
-      if (levels[i].count > 0) {
-        tempStreak++;
-        if (tempStreak > longestStreak) longestStreak = tempStreak;
-      } else {
-        tempStreak = 0;
-      }
-    }
-
-    // Use whichever is higher: API-counted events or known profile total
-    const apiTotal = levels.reduce((s, l) => s + l.count, 0);
-    const totalContributions = Math.max(apiTotal, KNOWN_CONTRIBUTIONS);
-
-    // Render cells
-    contributionGrid.innerHTML = '';
-    levels.forEach(({ level, count, date }) => {
-      const cell = document.createElement('div');
-      cell.className = `contrib-cell level-${level}`;
-      cell.title = `${count} contribution${count !== 1 ? 's' : ''} on ${date}`;
-      contributionGrid.appendChild(cell);
-    });
-
-    // Update stats
-    const ghContribEl = document.getElementById('gh-contributions');
-    const ghStreakEl = document.getElementById('gh-streak');
-    const ghLongestEl = document.getElementById('gh-longest');
-
-    if (ghContribEl) ghContribEl.textContent = totalContributions;
-    if (ghStreakEl) ghStreakEl.textContent = `${currentStreak} days`;
-    if (ghLongestEl) ghLongestEl.textContent = `${longestStreak} days`;
   }
 
-  buildContributionGrid();
+  fetchGitHubStats();
 
 
   // ===== FETCH GITHUB REPOS =====
