@@ -316,4 +316,214 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+
+  // ===== GITHUB CONTRIBUTION GRID (REAL DATA) =====
+  const contributionGrid = document.getElementById('contributionGrid');
+  const GITHUB_USERNAME = 'yaswanthvuppala';
+
+  async function buildContributionGrid() {
+    if (!contributionGrid) return;
+
+    const weeks = 52;
+    const days = 7;
+    const totalCells = weeks * days;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Build a date map for the last 52 weeks
+    const startDate = new Date(today);
+    startDate.setDate(startDate.getDate() - (totalCells - 1));
+    // Align to Sunday
+    startDate.setDate(startDate.getDate() - startDate.getDay());
+
+    const dateMap = {}; // 'YYYY-MM-DD' -> count
+
+    // Fetch events from GitHub API (public events, last 90 days max)
+    try {
+      const pages = [1, 2, 3]; // Fetch up to 300 events
+      const allEvents = [];
+      for (const page of pages) {
+        const res = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/events?per_page=100&page=${page}`);
+        if (!res.ok) break;
+        const events = await res.json();
+        if (events.length === 0) break;
+        allEvents.push(...events);
+      }
+
+      // Count events per day
+      allEvents.forEach(event => {
+        const d = new Date(event.created_at);
+        const key = d.toISOString().split('T')[0];
+        dateMap[key] = (dateMap[key] || 0) + 1;
+      });
+    } catch (err) {
+      console.warn('Could not fetch GitHub events:', err);
+    }
+
+    // Known contribution count from GitHub profile (update periodically)
+    // The github.com/users/.../contributions endpoint is CORS-blocked
+    // from browsers, so we use this as a reliable baseline.
+    const KNOWN_CONTRIBUTIONS = 51;
+
+    // Build levels array from date map
+    const levels = [];
+    const dateCursor = new Date(startDate);
+    for (let i = 0; i < totalCells; i++) {
+      const key = dateCursor.toISOString().split('T')[0];
+      const count = dateMap[key] || 0;
+      let level = 0;
+      if (count >= 8) level = 4;
+      else if (count >= 5) level = 3;
+      else if (count >= 3) level = 2;
+      else if (count >= 1) level = 1;
+      levels.push({ level, count, date: key });
+      dateCursor.setDate(dateCursor.getDate() + 1);
+    }
+
+    // Calculate streaks (from most recent day backwards)
+    let currentStreak = 0;
+    let longestStreak = 0;
+    let tempStreak = 0;
+    let foundFirstZero = false;
+
+    for (let i = levels.length - 1; i >= 0; i--) {
+      if (levels[i].count > 0) {
+        tempStreak++;
+      } else {
+        if (!foundFirstZero) {
+          currentStreak = tempStreak;
+          foundFirstZero = true;
+        }
+        if (tempStreak > longestStreak) longestStreak = tempStreak;
+        tempStreak = 0;
+      }
+    }
+    if (!foundFirstZero) currentStreak = tempStreak;
+    if (tempStreak > longestStreak) longestStreak = tempStreak;
+
+    // Use whichever is higher: API-counted events or known profile total
+    const apiTotal = levels.reduce((s, l) => s + l.count, 0);
+    const totalContributions = Math.max(apiTotal, KNOWN_CONTRIBUTIONS);
+
+    // Render cells
+    levels.forEach(({ level, count, date }) => {
+      const cell = document.createElement('div');
+      cell.className = `contrib-cell level-${level}`;
+      cell.title = `${count} contribution${count !== 1 ? 's' : ''} on ${date}`;
+      contributionGrid.appendChild(cell);
+    });
+
+    // Update stats
+    const ghContribEl = document.getElementById('gh-contributions');
+    const ghStreakEl = document.getElementById('gh-streak');
+    const ghLongestEl = document.getElementById('gh-longest');
+
+    if (ghContribEl) ghContribEl.textContent = totalContributions;
+    if (ghStreakEl) ghStreakEl.textContent = `${currentStreak} days`;
+    if (ghLongestEl) ghLongestEl.textContent = `${longestStreak} days`;
+  }
+
+  buildContributionGrid();
+
+
+  // ===== FETCH GITHUB REPOS =====
+  const reposGrid = document.getElementById('reposGrid');
+
+  // Language colors map
+  const langColors = {
+    'Python': '#3572A5',
+    'JavaScript': '#f1e05a',
+    'TypeScript': '#3178c6',
+    'HTML': '#e34c26',
+    'CSS': '#563d7c',
+    'Java': '#b07219',
+    'C': '#555555',
+    'C++': '#f34b7d',
+    'Jupyter Notebook': '#DA5B0B',
+    'Shell': '#89e051',
+  };
+
+  async function fetchGitHubRepos() {
+    try {
+      const res = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=6`);
+      if (!res.ok) throw new Error('GitHub API error');
+      const repos = await res.json();
+
+      // Sort by stars descending
+      repos.sort((a, b) => (b.stargazers_count || 0) - (a.stargazers_count || 0));
+
+      if (reposGrid) {
+        reposGrid.innerHTML = '';
+        repos.forEach(repo => {
+          const langColor = langColors[repo.language] || '#8b8b8b';
+          const card = document.createElement('div');
+          card.className = 'repo-card';
+          card.innerHTML = `
+            <div class="repo-header">
+              <svg class="repo-icon" viewBox="0 0 16 16" fill="currentColor" width="18" height="18"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"/></svg>
+              <h4 class="repo-name">${repo.name}</h4>
+            </div>
+            <p class="repo-desc">${repo.description || 'No description provided.'}</p>
+            <div class="repo-meta">
+              ${repo.language ? `<span class="repo-lang"><span class="lang-dot" style="background:${langColor}"></span>${repo.language}</span>` : ''}
+              <span class="repo-stat">⭐ ${repo.stargazers_count || 0}</span>
+              <span class="repo-stat">🔱 ${repo.forks_count || 0}</span>
+            </div>
+          `;
+          card.addEventListener('click', () => {
+            window.open(repo.html_url, '_blank');
+          });
+          card.style.cursor = 'pointer';
+          reposGrid.appendChild(card);
+        });
+      }
+    } catch (err) {
+      console.warn('Could not fetch GitHub repos:', err);
+      if (reposGrid) {
+        reposGrid.innerHTML = `
+          <div class="repo-card">
+            <p class="repo-desc" style="text-align:center; color:var(--text-muted);">
+              Unable to load repositories. Please check back later.
+            </p>
+          </div>
+        `;
+      }
+    }
+  }
+
+  fetchGitHubRepos();
+
+
+  // ===== THEME TOGGLE =====
+  const themeToggle = document.getElementById('themeToggle');
+  const htmlEl = document.documentElement;
+
+  // Check saved preference or system preference
+  function getPreferredTheme() {
+    const saved = localStorage.getItem('portfolio-theme');
+    if (saved) return saved;
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  }
+
+  function applyTheme(theme) {
+    if (theme === 'light') {
+      htmlEl.setAttribute('data-theme', 'light');
+    } else {
+      htmlEl.removeAttribute('data-theme');
+    }
+    localStorage.setItem('portfolio-theme', theme);
+  }
+
+  // Apply on load
+  applyTheme(getPreferredTheme());
+
+  // Toggle on click
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const current = htmlEl.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+    });
+  }
+
 });

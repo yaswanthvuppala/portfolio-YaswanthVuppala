@@ -27,9 +27,14 @@
       <li><a href="#skills">Skills</a></li>
       <li><a href="#education">Education</a></li>
       <li><a href="#projects">Projects</a></li>
+      <li><a href="#github">GitHub</a></li>
       <li><a href="#certifications">Certifications</a></li>
       <li><a href="#contact" class="nav-cta">Contact</a></li>
     </ul>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
+      <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
       <span></span><span></span><span></span>
     </button>
@@ -85,10 +90,8 @@
       <div class="hero-avatar-wrapper">
         <div class="avatar-container">
           <img src="assets/profile_avatar.png" alt="Yaswanth Vuppala" class="hero-avatar" />
-          <div class="dust-particles"></div>
         </div>
         <div class="avatar-ring"></div>
-        <div class="avatar-ring-2"></div>
       </div>
     </div>
   </section>
@@ -280,12 +283,11 @@
       <div class="projects-grid">
         <!-- Project 1: IDS -->
         <div class="project-card reveal">
-          <div class="project-image-wrapper">
-            <img src="assets/project_ids.png" alt="Intrusion Detection System" class="project-image" />
-            <span class="project-status active">In Progress</span>
-          </div>
           <div class="project-body">
-            <div class="project-duration">⏱ 2 Months • Current Project</div>
+            <div class="project-body-top">
+              <div class="project-duration">⏱ 2 Months • Current Project</div>
+              <span class="project-status active">In Progress</span>
+            </div>
             <h3 class="project-title">Intrusion Detection System Using Continual Learning</h3>
             <ul class="project-description">
               <li>Developing an ML-based IDS to identify malicious network activities and cyber-attacks</li>
@@ -305,12 +307,11 @@
 
         <!-- Project 2: Recommendation System -->
         <div class="project-card reveal">
-          <div class="project-image-wrapper">
-            <img src="assets/project_recsys.png" alt="Recommendation System" class="project-image" />
-            <span class="project-status completed">Completed</span>
-          </div>
           <div class="project-body">
-            <div class="project-duration">⏱ 4 Weeks</div>
+            <div class="project-body-top">
+              <div class="project-duration">⏱ 4 Weeks</div>
+              <span class="project-status completed">Completed</span>
+            </div>
             <h3 class="project-title">Recommendation System Using Machine Learning</h3>
             <ul class="project-description">
               <li>Built a recommendation system to suggest relevant items based on user preferences</li>
@@ -328,12 +329,11 @@
 
         <!-- Project 3: Credit Card Fraud Detection -->
         <div class="project-card reveal">
-          <div class="project-image-wrapper">
-            <img src="assets/project_fraud.png" alt="Credit Card Fraud Detection" class="project-image" />
-            <span class="project-status completed">Completed</span>
-          </div>
           <div class="project-body">
-            <div class="project-duration">⏱ 1 Weeks</div>
+            <div class="project-body-top">
+              <div class="project-duration">⏱ 1 Week</div>
+              <span class="project-status completed">Completed</span>
+            </div>
             <h3 class="project-title">Credit Card Fraud Detection Model</h3>
             <ul class="project-description">
               <li>Developed an ML model to accurately identify fraudulent credit card transactions within a heavily imbalanced dataset</li>
@@ -346,6 +346,77 @@
               <span class="project-tag">Scikit-Learn</span>
               <span class="project-tag">Machine Learning</span>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GITHUB CONTRIBUTIONS SECTION ===== -->
+  <section class="section" id="github">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-tag">⚡ Open Source</div>
+        <h2 class="section-title">GitHub <span class="highlight">Activity</span></h2>
+        <p class="section-subtitle">My open source contributions and development activity</p>
+      </div>
+
+      <!-- GitHub Stats Cards -->
+      <div class="github-stats reveal">
+        <div class="gh-stat-card">
+          <div class="gh-stat-icon">🔥</div>
+          <div class="gh-stat-value" id="gh-contributions">—</div>
+          <div class="gh-stat-label">Total Contributions</div>
+        </div>
+        <div class="gh-stat-card">
+          <div class="gh-stat-icon">⚡</div>
+          <div class="gh-stat-value" id="gh-streak">—</div>
+          <div class="gh-stat-label">Current Streak</div>
+        </div>
+        <div class="gh-stat-card">
+          <div class="gh-stat-icon">🏆</div>
+          <div class="gh-stat-value" id="gh-longest">—</div>
+          <div class="gh-stat-label">Longest Streak</div>
+        </div>
+      </div>
+
+      <!-- Contribution Grid -->
+      <div class="contribution-wrapper reveal">
+        <div class="contribution-header">
+          <span class="contribution-year">2026</span>
+          <div class="contribution-legend">
+            <span class="legend-label">Less</span>
+            <span class="legend-box level-0"></span>
+            <span class="legend-box level-1"></span>
+            <span class="legend-box level-2"></span>
+            <span class="legend-box level-3"></span>
+            <span class="legend-box level-4"></span>
+            <span class="legend-label">More</span>
+          </div>
+        </div>
+        <div class="contribution-scroll">
+          <div class="contribution-grid" id="contributionGrid"></div>
+        </div>
+      </div>
+
+      <!-- Top Repositories -->
+      <div class="repos-section reveal">
+        <h3 class="repos-heading">Top Repositories</h3>
+        <div class="repos-grid" id="reposGrid">
+          <div class="repo-card repo-skeleton">
+            <div class="skeleton-line w70"></div>
+            <div class="skeleton-line w100"></div>
+            <div class="skeleton-line w50"></div>
+          </div>
+          <div class="repo-card repo-skeleton">
+            <div class="skeleton-line w70"></div>
+            <div class="skeleton-line w100"></div>
+            <div class="skeleton-line w50"></div>
+          </div>
+          <div class="repo-card repo-skeleton">
+            <div class="skeleton-line w70"></div>
+            <div class="skeleton-line w100"></div>
+            <div class="skeleton-line w50"></div>
           </div>
         </div>
       </div>
