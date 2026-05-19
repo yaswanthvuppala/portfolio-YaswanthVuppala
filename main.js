@@ -327,20 +327,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const weeks = 52;
     const days = 7;
     const totalCells = weeks * days;
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const now = new Date();
 
-    // Build a date map for the last 52 weeks
-    const startDate = new Date(today);
-    startDate.setDate(startDate.getDate() - (totalCells - 1));
-    // Align to Sunday
-    startDate.setDate(startDate.getDate() - startDate.getDay());
+    // Use UTC dates throughout to avoid timezone mismatches with API
+    const todayUTC = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+
+    // Align endDate to Saturday of the current week (in UTC)
+    const endDateUTC = new Date(todayUTC);
+    endDateUTC.setUTCDate(endDateUTC.getUTCDate() + (6 - endDateUTC.getUTCDay()));
+
+    // Start date is totalCells - 1 days before endDate (always a Sunday)
+    const startDateUTC = new Date(endDateUTC);
+    startDateUTC.setUTCDate(startDateUTC.getUTCDate() - (totalCells - 1));
 
     const dateMap = {}; // 'YYYY-MM-DD' -> count
 
     // Fetch events from GitHub API (public events, last 90 days max)
     try {
-      const pages = [1, 2, 3]; // Fetch up to 300 events
+      const pages = [1, 2, 3];
       const allEvents = [];
       for (const page of pages) {
         const res = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/events?per_page=100&page=${page}`);
@@ -350,10 +354,9 @@ document.addEventListener('DOMContentLoaded', () => {
         allEvents.push(...events);
       }
 
-      // Count events per day
+      // Count events per day (using UTC date from ISO string)
       allEvents.forEach(event => {
-        const d = new Date(event.created_at);
-        const key = d.toISOString().split('T')[0];
+        const key = event.created_at.split('T')[0];
         dateMap[key] = (dateMap[key] || 0) + 1;
       });
     } catch (err) {
@@ -361,13 +364,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Known contribution count from GitHub profile (update periodically)
-    // The github.com/users/.../contributions endpoint is CORS-blocked
-    // from browsers, so we use this as a reliable baseline.
     const KNOWN_CONTRIBUTIONS = 51;
 
     // Build levels array from date map
     const levels = [];
-    const dateCursor = new Date(startDate);
+    const dateCursor = new Date(startDateUTC);
     for (let i = 0; i < totalCells; i++) {
       const key = dateCursor.toISOString().split('T')[0];
       const count = dateMap[key] || 0;
@@ -377,35 +378,46 @@ document.addEventListener('DOMContentLoaded', () => {
       else if (count >= 3) level = 2;
       else if (count >= 1) level = 1;
       levels.push({ level, count, date: key });
-      dateCursor.setDate(dateCursor.getDate() + 1);
+      dateCursor.setUTCDate(dateCursor.getUTCDate() + 1);
     }
 
-    // Calculate streaks (from most recent day backwards)
+    // Find today's index in the grid
+    const todayKey = todayUTC.toISOString().split('T')[0];
+    let todayIndex = levels.findIndex(l => l.date === todayKey);
+    if (todayIndex === -1) todayIndex = levels.length - 1;
+
+    // Calculate current streak (backwards from today)
     let currentStreak = 0;
+    let startIdx = todayIndex;
+    // If today has 0 contributions, check yesterday
+    if (levels[startIdx].count === 0 && startIdx > 0 && levels[startIdx - 1].count > 0) {
+      startIdx = startIdx - 1;
+    }
+    if (levels[startIdx].count > 0) {
+      for (let i = startIdx; i >= 0; i--) {
+        if (levels[i].count > 0) currentStreak++;
+        else break;
+      }
+    }
+
+    // Calculate longest streak (scan up to today)
     let longestStreak = 0;
     let tempStreak = 0;
-    let foundFirstZero = false;
-
-    for (let i = levels.length - 1; i >= 0; i--) {
+    for (let i = 0; i <= todayIndex; i++) {
       if (levels[i].count > 0) {
         tempStreak++;
-      } else {
-        if (!foundFirstZero) {
-          currentStreak = tempStreak;
-          foundFirstZero = true;
-        }
         if (tempStreak > longestStreak) longestStreak = tempStreak;
+      } else {
         tempStreak = 0;
       }
     }
-    if (!foundFirstZero) currentStreak = tempStreak;
-    if (tempStreak > longestStreak) longestStreak = tempStreak;
 
     // Use whichever is higher: API-counted events or known profile total
     const apiTotal = levels.reduce((s, l) => s + l.count, 0);
     const totalContributions = Math.max(apiTotal, KNOWN_CONTRIBUTIONS);
 
     // Render cells
+    contributionGrid.innerHTML = '';
     levels.forEach(({ level, count, date }) => {
       const cell = document.createElement('div');
       cell.className = `contrib-cell level-${level}`;
