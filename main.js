@@ -120,6 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const phrases = [
     'Machine Learning Enthusiast',
     'AI & Data Science',
+    'Computer Vision & Deep Learning',
     'Python Developer',
     'Problem Solver',
     'CSE @ IIIT Sri City',

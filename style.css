@@ -1111,6 +1111,52 @@ body {
   font-family: 'JetBrains Mono', monospace;
 }
 
+.project-links {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.project-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+}
+
+.project-link-btn.primary {
+  background: var(--gradient-primary);
+  color: #fff !important;
+  border: none;
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.2);
+}
+
+.project-link-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+}
+
+.project-link-btn.secondary {
+  background: var(--bg-glass);
+  color: var(--text-primary);
+  border: 1px solid var(--border-glass);
+}
+
+.project-link-btn.secondary:hover {
+  background: var(--bg-glass-hover);
+  border-color: var(--border-glow);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+
 /* ===== CERTIFICATIONS SECTION ===== */
 .cert-cards {
   display: flex;
