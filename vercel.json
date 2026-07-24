@@ -1,4 +1,10 @@
 {
   "version": 2,
-  "cleanUrls": true
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "https://yaswanthvuppala.github.io/$1",
+      "permanent": true
+    }
+  ]
 }
